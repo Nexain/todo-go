@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 	"strconv"
-	"todo-go/storage"
+	"todo-go/core"
 
 	"github.com/spf13/cobra"
 )
@@ -20,17 +20,10 @@ var completeCmd = &cobra.Command{
 			return fmt.Errorf("invalid ID: %v", err)
 		}
 
-		todos, err := storage.LoadTodos()
+		err = core.CompleteTask(id)
 		if err != nil {
-			return err
+			return fmt.Errorf("error completing todo item: %v", err)
 		}
-
-		for i, todo := range todos {
-			if todo.ID == id {
-				todos[i].Completed = true
-				return storage.SaveTodos(todos)
-			}
-		}
-		return fmt.Errorf("todo item with ID %d not found", id)
+		return nil
 	},
 }

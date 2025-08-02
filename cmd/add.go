@@ -3,8 +3,7 @@ package cmd
 import (
 	"fmt"
 	"strings"
-	"todo-go/models"
-	"todo-go/storage"
+	"todo-go/core"
 
 	"github.com/spf13/cobra"
 )
@@ -14,23 +13,12 @@ var addCmd = &cobra.Command{
 	Short: "Add a new todo item",
 	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		data, err := storage.LoadData()
+		task := strings.Join(args, " ")
+		err := core.AddTask(task)
 		if err != nil {
-			return fmt.Errorf("could not load data: %v", err)
+			return fmt.Errorf("could not add task: %v", err)
 		}
-
-		newTodo := models.Todo{
-			ID:   data.NextID,
-			Task: strings.Join(args, " "),
-		}
-		data.Todos = append(data.Todos, newTodo)
-		data.NextID++
-
-		err = storage.SaveData(data)
-		if err != nil {
-			return fmt.Errorf("could not save todo: %v", err)
-		}
-		fmt.Printf("✅ Todo added: %s\n", newTodo.Task)
+		fmt.Printf("✅ Todo added: %s\n", task)
 		return nil
 	},
 }

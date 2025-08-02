@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 	"strconv"
-	"todo-go/storage"
+	"todo-go/core"
 
 	"github.com/spf13/cobra"
 )
@@ -21,17 +21,11 @@ var updateCmd = &cobra.Command{
 		}
 		newTask := args[1]
 
-		todos, err := storage.LoadTodos()
+		err = core.UpdateTask(id, newTask)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to update task: %v", err)
 		}
-
-		for i, todo := range todos {
-			if todo.ID == id {
-				todos[i].Task = newTask
-				return storage.SaveTodos(todos)
-			}
-		}
-		return fmt.Errorf("todo item with ID %d not found", id)
+		fmt.Printf("Todo item with ID %d updated successfully to: %s\n", id, newTask)
+		return nil
 	},
 }

@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 	"strconv"
-	"todo-go/storage"
+	"todo-go/core"
 
 	"github.com/spf13/cobra"
 )
@@ -20,17 +20,11 @@ var deleteCmd = &cobra.Command{
 			return fmt.Errorf("invalid ID: %v", err)
 		}
 
-		todos, err := storage.LoadTodos()
+		err = core.DeleteTask(id)
 		if err != nil {
-			return err
+			return fmt.Errorf("error deleting todo item: %v", err)
 		}
 
-		for i, todo := range todos {
-			if todo.ID == id {
-				todos = append(todos[:i], todos[i+1:]...)
-				return storage.SaveTodos(todos)
-			}
-		}
-		return fmt.Errorf("todo item with ID %d not found", id)
+		return nil
 	},
 }
