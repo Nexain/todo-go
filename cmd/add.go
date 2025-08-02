@@ -14,6 +14,9 @@ var addCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		task := strings.Join(args, " ")
+		if task == "" {
+			return fmt.Errorf("task cannot be empty")
+		}
 		err := core.AddTask(task)
 		if err != nil {
 			return fmt.Errorf("could not add task: %v", err)
