@@ -27,6 +27,9 @@ func SetupRoutes(app *fiber.App) {
 		if body.Task == "" {
 			return c.Status(400).JSON(fiber.Map{"error": "Task tidak boleh kosong"})
 		}
+		if len(body.Task) > 255 {
+			return c.Status(400).JSON(fiber.Map{"error": "Task terlalu panjang, maksimal 255 karakter"})
+		}
 		if err := core.AddTask(body.Task); err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 		}
