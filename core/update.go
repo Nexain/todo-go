@@ -5,17 +5,17 @@ import (
 	"todo-go/storage"
 )
 
-func UpdateTask(id int, newTask string) error {
+func UpdateTask(id int, newTask string) (bool, error) {
 	todos, err := storage.LoadTodos()
 	if err != nil {
-		return err
+		return false, err
 	}
 
 	for i, todo := range todos {
 		if todo.ID == id {
 			todos[i].Task = newTask
-			return storage.SaveTodos(todos)
+			return true, storage.SaveTodos(todos)
 		}
 	}
-	return fmt.Errorf("todo item with ID %d not found", id)
+	return false, fmt.Errorf("todo item with ID %d not found", id)
 }

@@ -20,7 +20,7 @@ var deleteCmd = &cobra.Command{
 			return fmt.Errorf("invalid ID: %v", err)
 		}
 
-		err = core.DeleteTask(id)
+		_, err = core.DeleteTask(id)
 		if err != nil {
 			return fmt.Errorf("error deleting todo item: %v", err)
 		}

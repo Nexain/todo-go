@@ -5,20 +5,20 @@ import (
 	"todo-go/storage"
 )
 
-func CompleteTask(id int) error {
+func CompleteTask(id int) (string, error) {
 	todos, err := storage.LoadTodos()
 	if err != nil {
-		return err
+		return "err", err
 	}
 
 	for i, todo := range todos {
 		if todo.ID == id {
 			if todo.Completed {
-				return fmt.Errorf("todo item with ID %d is already completed", id)
+				return "already_done", fmt.Errorf("todo item with ID %d is already completed", id)
 			}
 			todos[i].Completed = true
-			return storage.SaveTodos(todos)
+			return "ok", storage.SaveTodos(todos)
 		}
 	}
-	return fmt.Errorf("todo item with ID %d not found", id)
+	return "not_found", fmt.Errorf("todo item with ID %d not found", id)
 }
