@@ -1,14 +1,14 @@
-# Todo-Go CLI Application
+# Todo-Go Application
 
-A simple command-line todo list application built with Go using Cobra CLI framework.
+A dual-interface todo list application built with Go, featuring both CLI and REST API capabilities.
 
 ## Features
 
-- Add new todo items
-- List all todo items
-- Mark todo items as complete 
-- Delete todo items
-- Update todo items
+- Add, list, update and delete todo items
+- Mark todos as complete
+- Command-line interface using Cobra
+- REST API using Fiber framework
+- Data persistence using SQLite
 
 ## Installation
 
@@ -32,7 +32,7 @@ A simple command-line todo list application built with Go using Cobra CLI framew
     go build
     ```
 
-## Usage
+## CLI Usage
 
 ### Add a new todo
 ```bash
@@ -59,8 +59,58 @@ A simple command-line todo list application built with Go using Cobra CLI framew
 ./todo-go update <id> "New task description"
 ```
 
+## API Usage
+
+Start the API server:
+```bash
+./todo-go serve
+```
+
+The server runs on `http://localhost:3000` by default.
+
+### API Endpoints
+
+#### Get all todos
+```http
+GET /todos
+```
+
+#### Create a todo
+```http
+POST /todos
+Content-Type: application/json
+
+{
+    "task": "Your todo task"
+}
+```
+
+#### Update a todo
+```http
+PUT /todos/:id
+Content-Type: application/json
+
+{
+    "task": "Updated task"
+}
+```
+
+#### Complete a todo
+```http
+PATCH /todos/:id/complete
+```
+
+#### Delete a todo
+```http
+DELETE /todos/:id
+```
+
 ## Dependencies
+
 - `github.com/spf13/cobra` - CLI framework
+- `github.com/gofiber/fiber/v2` - Web framework
+
+## Development
 
 ## License
 
@@ -72,4 +122,4 @@ MIT License
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a new Pull Request
+5. Open a Pull Request
