@@ -22,9 +22,13 @@ var listCmd = &cobra.Command{
 		for _, todo := range todos {
 			check := "[ ]"
 			if todo.Completed {
-				check = "[v]"
+				check = "[x]"
 			}
-			fmt.Printf("%d. %s %s\n", todo.ID, check, todo.Task)
+			fmt.Printf("%d. %s %s (Created: %s", todo.ID, check, todo.Task, todo.CreatedAt.Format("2006-01-02 15:04"))
+			if todo.Completed {
+				fmt.Printf(", Completed: %s", todo.CompletedAt.Format("2006-01-02 15:04"))
+			}
+			fmt.Println(")")
 		}
 		return nil
 	},

@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"time"
 	"todo-go/storage"
 )
 
@@ -14,6 +15,7 @@ func UpdateTask(id int, newTask string) (bool, error) {
 	for i, todo := range todos {
 		if todo.ID == id {
 			todos[i].Task = newTask
+			todos[i].UpdatedAt = time.Now()
 			return true, storage.SaveTodos(todos)
 		}
 	}

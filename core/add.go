@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"strings"
+	"time"
 	"todo-go/models"
 	"todo-go/storage"
 )
@@ -18,8 +19,9 @@ func AddTask(task string) error {
 	}
 
 	newTodo := models.Todo{
-		ID:   data.NextID,
-		Task: strings.TrimSpace(task),
+		ID:        data.NextID,
+		Task:      strings.TrimSpace(task),
+		CreatedAt: time.Now(),
 	}
 	data.Todos = append(data.Todos, newTodo)
 	data.NextID++
