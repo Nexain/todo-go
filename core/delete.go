@@ -1,21 +1,21 @@
 package core
 
 import (
-	"fmt"
-	"todo-go/storage"
+	"context"
+	"time"
+	"todo-go/db"
+
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func DeleteTask(id int64) (bool, error) {
-	todos, err := storage.LoadTodos()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	filter := bson.M{"id": id}
+	_, err := db.TodoCollection.DeleteOne(ctx, filter)
 	if err != nil {
 		return false, err
 	}
-
-	for i, todo := range todos {
-		if todo.ID == id {
-			todos = append(todos[:i], todos[i+1:]...)
-			return true, storage.SaveTodos(todos)
-		}
-	}
-	return false, fmt.Errorf("todo item with ID %d not found", id)
+	return true, nil
 }

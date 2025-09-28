@@ -27,7 +27,8 @@ func AddTask(task string) error {
 		NextID int64  `bson:"next_id"`
 	}
 
-	err := db.DB.Collection("counters").FindOneAndUpdate(ctx, filter, update, opts).Decode(&counter)
+	err := db.DB.Collection("counters").FindOneAndUpdate(ctx,
+		filter, update, opts).Decode(&counter)
 	if err != nil && err != mongo.ErrNoDocuments {
 		return fmt.Errorf("could not get next ID: %v", err)
 	}

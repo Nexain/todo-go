@@ -1,23 +1,27 @@
 package core
 
 import (
-	"fmt"
+	"context"
 	"time"
-	"todo-go/storage"
+	"todo-go/db"
+
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func UpdateTask(id int64, newTask string) (bool, error) {
-	todos, err := storage.LoadTodos()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	filter := bson.M{"id": id, "completed": false}
+	update := bson.M{
+		"$set": bson.M{
+			"task":       newTask,
+			"updated_at": time.Now()},
+	}
+	err := db.TodoCollection.FindOneAndUpdate(ctx, filter, update).Err()
 	if err != nil {
 		return false, err
 	}
 
-	for i, todo := range todos {
-		if todo.ID == id {
-			todos[i].Task = newTask
-			todos[i].UpdatedAt = time.Now()
-			return true, storage.SaveTodos(todos)
-		}
-	}
-	return false, fmt.Errorf("todo item with ID %d not found", id)
+	return true, nil
 }
