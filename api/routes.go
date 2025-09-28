@@ -48,7 +48,7 @@ func SetupRoutes(app *fiber.App) {
 		if err := c.BodyParser(&body); err != nil {
 			return c.Status(400).JSON(fiber.Map{"error": "Invalid request body"})
 		}
-		updated, err := core.UpdateTask(id, body.Task)
+		updated, err := core.UpdateTask(int64(id), body.Task)
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 		}
@@ -63,7 +63,7 @@ func SetupRoutes(app *fiber.App) {
 		if err != nil {
 			return c.Status(400).JSON(fiber.Map{"error": "Invalid ID"})
 		}
-		status, err := core.CompleteTask(id)
+		status, err := core.CompleteTask(int64(id))
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 		}
@@ -81,7 +81,7 @@ func SetupRoutes(app *fiber.App) {
 		if err != nil {
 			return c.Status(400).JSON(fiber.Map{"error": "Invalid ID"})
 		}
-		deleted, err := core.DeleteTask(id)
+		deleted, err := core.DeleteTask(int64(id))
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 		}

@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"log"
 	"todo-go/api"
+	"todo-go/db"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -12,8 +14,16 @@ import (
 func main() {
 	// cmd.Execute() //uncomment if you want to run the CLI commands
 
-	app := fiber.New()
+	// Init MongoDB
+	db.InitMongo()
+	defer db.Client.Disconnect(context.Background())
 
+	// Init Collection
+	db.InitCollection()
+
+	// Init Fiber
+
+	app := fiber.New()
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost:3001",
 		AllowMethods: "GET,POST,PUT,DELETE,PATCH",

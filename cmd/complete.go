@@ -20,7 +20,7 @@ var completeCmd = &cobra.Command{
 			return fmt.Errorf("invalid ID: %v", err)
 		}
 
-		_, err = core.CompleteTask(id)
+		_, err = core.CompleteTask(int64(id))
 		if err != nil {
 			return fmt.Errorf("error completing todo item: %v", err)
 		}

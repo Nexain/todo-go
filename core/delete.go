@@ -5,7 +5,7 @@ import (
 	"todo-go/storage"
 )
 
-func DeleteTask(id int) (bool, error) {
+func DeleteTask(id int64) (bool, error) {
 	todos, err := storage.LoadTodos()
 	if err != nil {
 		return false, err

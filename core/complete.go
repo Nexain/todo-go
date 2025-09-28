@@ -6,7 +6,7 @@ import (
 	"todo-go/storage"
 )
 
-func CompleteTask(id int) (string, error) {
+func CompleteTask(id int64) (string, error) {
 	todos, err := storage.LoadTodos()
 	if err != nil {
 		return "err", err

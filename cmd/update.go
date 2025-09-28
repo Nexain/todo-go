@@ -21,7 +21,7 @@ var updateCmd = &cobra.Command{
 		}
 		newTask := args[1]
 
-		_, err = core.UpdateTask(id, newTask)
+		_, err = core.UpdateTask(int64(id), newTask)
 		if err != nil {
 			return fmt.Errorf("failed to update task: %v", err)
 		}
